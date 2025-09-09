@@ -61,9 +61,9 @@ public class Stockfish {
                 int absDiff = Math.abs(diff);
 
                 if (absDiff >= 150) {
-                    mistakes.add(fens.get(i) + " B");
+                    mistakes.add(fens.get(i));
                 } else if (absDiff >= 80) {
-                    mistakes.add(fens.get(i) + " M");
+                    mistakes.add(fens.get(i));
                 }
             }
             prevEval = eval;
@@ -92,41 +92,6 @@ public class Stockfish {
             }
         }
     }
-
-    public int getPuzzleDifficulty(String fenBefore, String playedMove) throws IOException {
-
-        int evalBefore = evaluatePosition(fenBefore);
-
-        sendCommand("position fen " + fenBefore);
-        sendCommand("go depth 15");
-
-        String bestMove = null;
-        String line;
-        while ((line = reader.readLine()) != null) {
-            if (line.startsWith("bestmove")) {
-                bestMove = line.split(" ")[1]; // e.g. "g1f3"
-                break;
-            }
-        }
-
-        String fenAfterPlayed = getFenAfterMove(fenBefore, playedMove);
-        int evalAfterPlayed = evaluatePosition(fenAfterPlayed);
-
-        String fenAfterBest = getFenAfterMove(fenBefore, bestMove);
-        int evalAfterBest = evaluatePosition(fenAfterBest);
-
-        int diff = (evalAfterBest - evalAfterPlayed);
-        int absDiff = Math.abs(diff);
-
-        if (absDiff >= 500) {
-            return 1;
-        } else if (absDiff >= 200) {
-            return 2;
-        } else {
-            return 3;
-        }
-    }
-
 
     public String getFenAfterMove(String fenBefore, String move) throws IOException {
 

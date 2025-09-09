@@ -7,9 +7,9 @@ import com.example.pzzl.repos.MoveRepo;
 import com.example.pzzl.repos.PuzzleRepo;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 @Service
 public class PuzzleService {
@@ -34,17 +34,14 @@ public class PuzzleService {
         sf.startEngine("src/main/java/com/example/pzzl/engine/stockfish/stockfish-windows-x86-64-avx2.exe");
 
         List<String> mistakes = sf.detectMistakes(fens);
-
         List<Puzzle> puzzles = new ArrayList<>();
+        Random random = new Random();
 
         for (String fen : mistakes) {
             Puzzle puzzle = new Puzzle();
             puzzle.setFen(fen);
             puzzle.setNumberOfMoves(1);
-            if (fen.endsWith("B")) {
-                puzzle.setDifficulty(sf.getPuzzleDifficulty(fen, ));
-            }
-
+            puzzle.setDifficulty(random.nextInt(5) + 1);
             Move move = new Move();
             move.setMoveNumber(0);
             move.setIsCorrect(true);
@@ -52,10 +49,11 @@ public class PuzzleService {
             move.setFenAfterMove(sf.getFenAfterMove(fen, move.getNotation()));
             moveRepo.save(move);
             puzzle.setCorrectMoves(List.of(move));
-            puzzleRepo.save(puzzle);
+            puzzles.add(puzzleRepo.save(puzzle));
         }
 
-        return null;
+        sf.stopEngine();
+        return puzzles;
 
     }
 

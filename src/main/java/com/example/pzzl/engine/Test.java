@@ -1,6 +1,9 @@
 package com.example.pzzl.engine;
 
 
+import com.example.pzzl.engine.convertion.PGNParser;
+import com.example.pzzl.entities.Puzzle;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -18,7 +21,7 @@ public class Test {
                 "rnbqkbnr/pppp1ppp/8/4p3/6Pq/5P2/PPPPP2P/RNBQKBNR w KQkq - 1 3"
         );
 
-        System.out.println(sf.getBestMove(fens.get(0)));
+        System.out.println(PGNParser.parsePGNtoFEN("1. f3 e5 2. g4 Qh4#"));
 
     }
 

@@ -1,25 +1,28 @@
 package com.example.pzzl.engine.convertion;
 
 import com.github.bhlangonijr.chesslib.Board;
+import com.github.bhlangonijr.chesslib.game.Game;
 import com.github.bhlangonijr.chesslib.move.Move;
 import com.github.bhlangonijr.chesslib.move.MoveException;
+import com.github.bhlangonijr.chesslib.move.MoveGenerator;
+import com.github.bhlangonijr.chesslib.pgn.PgnHolder;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class PGNParser {
 
-    public static List<String> parsePGNtoFEN(String pgnMoves) throws MoveException {
-        Board board = new Board();
+    public static List<String> parsePGNtoFEN(String pgnMoves) throws Exception {
+        PgnHolder pgn = new PgnHolder(filePath);
+        pgn.loadPgn();
+        Game game = pgn.getGame().get(0); // take first game
         List<String> fens = new ArrayList<>();
+
+        Board board = new Board();
         fens.add(board.getFen());
 
-        String[] tokens = pgnMoves.replaceAll("\\d+\\.", "").trim().split("\\s+");
-
-        for (String token : tokens) {
-            if (token.equals("1-0") || token.equals("0-1") || token.equals("1/2-1/2")) break;
-            Move move = new Move(token, board.getSideToMove());
-            board.doMove(move);
+        for (Move move : game.getHalfMoves()) {
+            board.doMove(move.getLan()); // LAN works better here
             fens.add(board.getFen());
         }
 
