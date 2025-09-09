@@ -49,11 +49,23 @@ public class PuzzleService {
             move.setFenAfterMove(sf.getFenAfterMove(fen, move.getNotation()));
             moveRepo.save(move);
             puzzle.setCorrectMoves(List.of(move));
-            puzzles.add(puzzleRepo.save(puzzle));
+            puzzles.add(puzzle);
         }
 
         sf.stopEngine();
-        return puzzles;
+        return puzzleRepo.saveAll(puzzles);
+
+    }
+
+    public Puzzle getPuzzle(int level, List<Puzzle> puzzles) {
+
+        for (Puzzle puzzle : puzzles) {
+            if (!puzzle.isDone() && puzzle.getDifficulty()==level) {
+                return puzzle;
+            }
+        }
+
+        return null;
 
     }
 

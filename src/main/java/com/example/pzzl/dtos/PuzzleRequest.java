@@ -8,6 +8,6 @@ import java.util.List;
 public class PuzzleRequest {
 
     private String user;
-    private List<RequestGames> games;
+    private List<RequestGames> games; //there should be at least 3 games I guess
 
 }

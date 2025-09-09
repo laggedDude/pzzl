@@ -15,6 +15,7 @@ public class Puzzle {
 
     @OneToMany
     private List<Move> correctMoves;
+    private boolean done = false;
     private Integer numberOfMoves; // total number of moves in the puzzle
     private Integer difficulty; // 1-5 scale
 
