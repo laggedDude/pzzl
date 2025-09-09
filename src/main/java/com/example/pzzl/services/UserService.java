@@ -69,6 +69,7 @@ public class UserService {
         allPuzzles.addAll(puzzles);
 
         user.setPuzzles(allPuzzles);
+        saveUser(user);
         return allPuzzles;
 
     }
@@ -81,6 +82,12 @@ public class UserService {
     public int getUserLevel(String username) {
 
         return getUser(username).getAccuracy()/20;
+
+    }
+
+    public List<Puzzle> getPuzzles(String username) {
+
+        return getUser(username).getPuzzles();
 
     }
 

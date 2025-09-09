@@ -44,7 +44,6 @@ public class PuzzleController {
 
             puzzles = puzzleService.createPuzzles(fens);
 
-
         }
 
         List<Puzzle> allPuzzles;
@@ -53,7 +52,7 @@ public class PuzzleController {
             if (puzzles != null) {
                 allPuzzles = userService.addPuzzles(puzzles, request.getUser());
             } else {
-                allPuzzles = puzzles;
+                allPuzzles = userService.getPuzzles(request.getUser());
             }
         } else {
             userService.registerUser(request.getUser(), puzzles);
@@ -63,7 +62,7 @@ public class PuzzleController {
 
         PuzzleResponse puzzleResponse = new PuzzleResponse();
         puzzleResponse.setPuzzle(puzzleService.getPuzzle(userService.getUserLevel(request.getUser()),  allPuzzles));
-        puzzleResponse.setMoreGames(requestGames.size()<3);
+        puzzleResponse.setMoreGames(allPuzzles.size()<3);
 
         return puzzleResponse;
 

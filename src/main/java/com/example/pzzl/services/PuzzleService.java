@@ -60,7 +60,7 @@ public class PuzzleService {
     public Puzzle getPuzzle(int level, List<Puzzle> puzzles) {
 
         for (Puzzle puzzle : puzzles) {
-            if (!puzzle.isDone() && puzzle.getDifficulty()==level) {
+            if (!puzzle.isDone() && puzzle.getDifficulty()<=level) {
                 return puzzle;
             }
         }
